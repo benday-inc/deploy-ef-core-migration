@@ -1,19 +1,28 @@
-name: 'Edit .net core database connection string in appsettings.json'
-description: 'Edit a connection string for .NET Core in appsettings.json'
+name: 'Deploy EF Core migrations from a DLL'
+description: 'Deploy EF Core migrations from a DLL'
 author: 'Benjamin Day Consulting, Inc.'
 inputs:
   name:
+    migrations_dll: true
     required: true
-    description: 'name of the connection string'
-    default: 'default'
-  connectionString:
-    required: true
-    description: 'value for the connection string'
+    description: 'DLL that contains the EF migrations to deploy'
     default: ''
-  pathToSettingsFile:
+  migrations_namespace:
     required: true
-    description: 'path to your appsettings.json file'
-    default: 'appsettings.json'
+    description: 'Root namespace for the EF migrations'
+    default: ''
+  startup_dll:
+    required: true
+    description: 'DLL to start deploying migrations from. If you're publishing migrations from a web project, choose the web project DLL.  Otherwise, choose the migration DLL.'
+    default: ''
+  dbcontext_class_name:
+    required: true
+    description: 'Class name of the DbContext'
+    default: ''
+  path_to_directory:
+    required: true
+    description: 'Path to directory that contains all the files'
+    default: ''
 runs:
   using: 'node12'
   main: 'dist/index.js'
