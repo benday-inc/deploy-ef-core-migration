@@ -4,7 +4,6 @@ import path from 'path'
 import * as fs from 'fs'
 import which from 'which'
 import * as os from 'os'
-import {pathToFileURL} from 'url'
 
 async function run(): Promise<void> {
   try {
@@ -38,8 +37,15 @@ async function run(): Promise<void> {
     const startupDllName = getInputValue('startup_dll')
     const dbContextClassName = getInputValue('dbcontext_class_name')
 
-    const runtimeConfigFilename = `${startupDllName}.runtimeconfig.json`
-    const depsJsonFilename = `${startupDllName}.deps.json`
+    const runtimeConfigFilename = `${path.basename(
+      startupDllName,
+      '.dll'
+    )}.runtimeconfig.json`
+
+    const depsJsonFilename = `${path.basename(
+      startupDllName,
+      '.dll'
+    )}.deps.json`
 
     const migrationDllPath = getPathToFileAndVerifyExists(
       pathToDirectory,
@@ -108,7 +114,15 @@ function deployMigrations(
   //   }
   // )
   writeDebug('Calling command using child.execSync()...')
-  child.execSync(commandText, {stdio: 'inherit'})
+  // child.execSync(commandText, {stdio: 'inherit'})
+
+  const options: child.ExecSyncOptions = {
+    env: process.env,
+    stdio: [process.stdin, process.stdout, process.stderr]
+  }
+
+  child.execSync(commandText, options)
+
   writeDebug('Call to child.execSync() returned.')
 }
 

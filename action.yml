@@ -2,8 +2,11 @@ name: 'Deploy EF Core migrations from a DLL'
 description: 'Deploy EF Core migrations from a DLL'
 author: 'Benjamin Day Consulting, Inc.'
 inputs:
-  name:
-    migrations_dll: true
+  path_to_directory:
+    required: true
+    description: 'Path to directory that contains all the files'
+    default: ''
+  migrations_dll: true
     required: true
     description: 'DLL that contains the EF migrations to deploy'
     default: ''
@@ -18,10 +21,6 @@ inputs:
   dbcontext_class_name:
     required: true
     description: 'Class name of the DbContext'
-    default: ''
-  path_to_directory:
-    required: true
-    description: 'Path to directory that contains all the files'
     default: ''
 runs:
   using: 'node12'
