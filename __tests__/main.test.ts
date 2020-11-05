@@ -11,7 +11,10 @@ test('make call to deploy migrations', () => {
   if (fs.existsSync(dirOption1)) {
     process.env['INPUT_PATH_TO_DIRECTORY'] = dirOption1
   } else {
-    process.env['INPUT_PATH_TO_DIRECTORY'] = path.join(process.cwd(), 'actionsdemo-artifact')
+    process.env['INPUT_PATH_TO_DIRECTORY'] = path.join(
+      process.cwd(),
+      'actionsdemo-artifact'
+    )
   }
 
   process.env['INPUT_MIGRATIONS_DLL'] = 'Benday.Demo123.Api.dll'

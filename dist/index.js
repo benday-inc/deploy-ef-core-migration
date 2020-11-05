@@ -154,6 +154,7 @@ function run() {
             // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
             // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
             writeDebug(`Starting...`);
+            writeDebug(`Working directory is ${process.cwd()}`);
             writeDebug(`Reading inputs...`);
             writeDebug(`Finding location of dotnet...`);
             const dotnetLocation = which_1.default.sync('dotnet', { nothrow: true });
