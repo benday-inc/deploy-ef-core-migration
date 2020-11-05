@@ -34,6 +34,8 @@ jobs:
           name: 'default'
           connectionstring: 'Server=localhost; Database=Benday.Demo123; User Id=sa; Password=${{ secrets.SQL_SERVER_PASSWORD }};'
           pathtosettingsfile: '${{ github.workspace }}/actionsdemo-artifact/appsettings.json'    
+      - name: get PWD
+        run: pwd
       - name: run an ls -l
         run: ls -lR
         working-directory: '${{ github.workspace }}'
