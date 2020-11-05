@@ -12,6 +12,15 @@ env:
 jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: '${{ secrets.SQL_SERVER_PASSWORD }}'
+          MSSQL_PID: Standard
+        ports:
+        - 1433:1433
     steps:
       - uses: actions/checkout@v2
       - name: Download artifact from a github workflow
