@@ -6,7 +6,7 @@ inputs:
     required: true
     description: 'Path to directory that contains all the files'
     default: ''
-  migrations_dll: true
+  migrations_dll:
     required: true
     description: 'DLL that contains the EF migrations to deploy'
     default: ''
