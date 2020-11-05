@@ -6,8 +6,14 @@ import * as os from 'os'
 // shows how the runner will run a javascript action with env / stdout protocol
 
 test('make call to deploy migrations', () => {
-  process.env['INPUT_PATH_TO_DIRECTORY'] =
-    '/Users/benday/Downloads/build-output'
+  const dirOption1 = '/Users/benday/Downloads/build-output'
+
+  if (fs.existsSync(dirOption1)) {
+    process.env['INPUT_PATH_TO_DIRECTORY'] = dirOption1
+  } else {
+    process.env['INPUT_PATH_TO_DIRECTORY'] = process.cwd()
+  }
+
   process.env['INPUT_MIGRATIONS_DLL'] = 'Benday.Demo123.Api.dll'
   process.env['INPUT_MIGRATIONS_NAMESPACE'] = 'Benday.Demo123.Api'
   process.env['INPUT_STARTUP_DLL'] = 'Benday.Demo123.WebUi.dll'
