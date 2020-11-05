@@ -207,6 +207,7 @@ function deployMigrations(dotnetToolPath, pathToEfDll, migrationsNamespace, dbCo
     // child.execSync(commandText, {stdio: 'inherit'})
     const options = {
         env: process.env,
+        cwd: migrationsDirectory,
         stdio: [process.stdin, process.stdout, process.stderr]
     };
     child.execSync(commandText, options);

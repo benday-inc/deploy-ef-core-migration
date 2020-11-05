@@ -118,6 +118,7 @@ function deployMigrations(
 
   const options: child.ExecSyncOptions = {
     env: process.env,
+    cwd: migrationsDirectory,
     stdio: [process.stdin, process.stdout, process.stderr]
   }
 
