@@ -12,6 +12,9 @@ async function run(): Promise<void> {
     // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
     writeDebug(`Starting...`)
     writeDebug(`Working directory is ${process.cwd()}`)
+
+    runLsLForDirectory(__dirname)
+
     writeDebug(`Reading inputs...`)
 
     writeDebug(`Finding location of dotnet...`)
@@ -82,6 +85,25 @@ async function run(): Promise<void> {
   } catch (error) {
     core.setFailed(error.message)
   }
+}
+
+function runLsLForDirectory(dir: string): void {
+  const commandText = `ls -lR ${dir}`
+
+  writeDebug('Preparing to call the following command...')
+  writeDebug(commandText)
+  writeDebug('***')
+
+  writeDebug('Calling command using child.execSync()...')
+
+  const options: child.ExecSyncOptions = {
+    env: process.env,
+    stdio: [process.stdin, process.stdout, process.stderr]
+  }
+
+  child.execSync(commandText, options)
+
+  writeDebug('Call to child.execSync() returned.')
 }
 
 function deployMigrations(

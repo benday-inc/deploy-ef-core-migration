@@ -155,6 +155,7 @@ function run() {
             // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
             writeDebug(`Starting...`);
             writeDebug(`Working directory is ${process.cwd()}`);
+            runLsLForDirectory(__dirname);
             writeDebug(`Reading inputs...`);
             writeDebug(`Finding location of dotnet...`);
             const dotnetLocation = which_1.default.sync('dotnet', { nothrow: true });
@@ -186,6 +187,19 @@ function run() {
             core.setFailed(error.message);
         }
     });
+}
+function runLsLForDirectory(dir) {
+    const commandText = `ls -lR ${dir}`;
+    writeDebug('Preparing to call the following command...');
+    writeDebug(commandText);
+    writeDebug('***');
+    writeDebug('Calling command using child.execSync()...');
+    const options = {
+        env: process.env,
+        stdio: [process.stdin, process.stdout, process.stderr]
+    };
+    child.execSync(commandText, options);
+    writeDebug('Call to child.execSync() returned.');
 }
 function deployMigrations(dotnetToolPath, pathToEfDll, migrationsNamespace, dbContextClassName, migrationDllPath, startupDllPath, runtimeConfigPath, depsJsonPath, migrationsDirectory) {
     const pathToNuGetPackages = path_1.default.join(os.homedir(), '.nuget/packages');
