@@ -6,6 +6,7 @@ on: # rebuild any PRs and main branch changes
       - main
       - master
       - 'releases/*'
+  workflow_dispatch:
 env:
   MYGITHUBTOKEN: '${{ secrets.TOKEN_FOR_ACTIONSDEMO }}'
 jobs:
