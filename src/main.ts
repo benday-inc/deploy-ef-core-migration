@@ -159,14 +159,23 @@ function deployMigrations(
 function getPathToEfDll(): string {
   writeDebug('getting path to ef.dll...')
 
-  const pathToEfDll = path.join(__dirname, 'ef.dll')
+  const pathToEfDllOption1 = path.join(__dirname, 'ef.dll')
+  const pathToEfDllOption2 = path.join(__dirname, '..', 'dist', 'ef.dll')
 
-  if (verifyFileExists(pathToEfDll) === false) {
-    core.setFailed(`Could not locate ef.dll at expected path: ${pathToEfDll}`)
+  const option1Exists = verifyFileExists(pathToEfDllOption1)
+  const option2Exists = verifyFileExists(pathToEfDllOption2)
+
+  if (option1Exists === false && option2Exists === false) {
+    core.setFailed(
+      `Could not locate ef.dll at expected paths: 1) ${pathToEfDllOption1} 2) ${pathToEfDllOption2}`
+    )
     return null
-  } else {
-    writeDebug(`Found ef.dll at ${pathToEfDll}`)
-    return pathToEfDll
+  } else if (option1Exists === true) {
+    writeDebug(`Found ef.dll at ${pathToEfDllOption1}`)
+    return pathToEfDllOption1
+  } else if (option2Exists === true) {
+    writeDebug(`Found ef.dll at ${pathToEfDllOption2}`)
+    return pathToEfDllOption2
   }
 }
 
