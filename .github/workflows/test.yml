@@ -41,9 +41,9 @@ jobs:
           download_path: '${{ github.workspace }}/temp'
           download_filename: 'actionsdemo-artifact.zip'
       - name: mkdir for unzipped artifact
-          run: mkdir '${{ github.workspace }}/actionsdemo-artifact'
+        run: mkdir '${{ github.workspace }}/actionsdemo-artifact'
       - name: unzip artifact
-          run: unzip '${{ github.workspace }}/temp/actionsdemo-artifact.zip' -d '${{ github.workspace }}/actionsdemo-artifact'
+        run: unzip '${{ github.workspace }}/temp/actionsdemo-artifact.zip' -d '${{ github.workspace }}/actionsdemo-artifact'
     
       - name: Edit .net core database connection string in appsettings.json
         uses: benday/action-edit-dbconnstr-in-appsettings@v1.0.1
