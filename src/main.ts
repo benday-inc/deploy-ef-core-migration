@@ -13,7 +13,7 @@ async function run(): Promise<void> {
     writeDebug(`Starting...`)
     writeDebug(`Working directory is ${process.cwd()}`)
 
-    runLsLForDirectory(__dirname)
+    runLsLForDirectory(path.join(__dirname, '..'))
 
     writeDebug(`Reading inputs...`)
 
