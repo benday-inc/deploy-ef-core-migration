@@ -6,7 +6,8 @@ on: # rebuild any PRs and main branch changes
       - main
       - master
       - 'releases/*'
-
+env:
+  MYGITHUBTOKEN: '${{ secrets.TOKEN_FOR_ACTIONSDEMO }}'
 jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
@@ -18,15 +19,47 @@ jobs:
           npm run all
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: '${{ secrets.SQL_SERVER_PASSWORD }}'
+          MSSQL_PID: Standard
+        ports:
+        - 1433:1433
     steps:
       - uses: actions/checkout@v2
+      - name: Download artifact from a github workflow
+        uses: benday/action-download-latest-artifact@v0.1
+        with:
+          token: '${{ env.MYGITHUBTOKEN }}'
+          repository_owner: 'benday'
+          repository_name: 'actionsdemo'
+          workflow_name: '.NET Core'
+          branch_name: 'master'
+          download_path: '${{ github.workspace }}/temp'
+          download_filename: 'actionsdemo-artifact.zip'
+      - name: mkdir for unzipped artifact
+          run: mkdir '${{ github.workspace }}/actionsdemo-artifact'
+      - name: unzip artifact
+          run: unzip '${{ github.workspace }}/temp/actionsdemo-artifact.zip' -d '${{ github.workspace }}/actionsdemo-artifact'
+    
+      - name: Edit .net core database connection string in appsettings.json
+        uses: benday/action-edit-dbconnstr-in-appsettings@v1.0.1
+        with:
+          name: 'default'
+          connectionstring: 'Server=localhost; Database=Benday.Demo123; User Id=sa; Password=${{ secrets.SQL_SERVER_PASSWORD }};'
+          pathtosettingsfile: '${{ github.workspace }}/actionsdemo-artifact/appsettings.json'    
       - name: run an ls -l
         run: ls -lR
         working-directory: '${{ github.workspace }}'
       - uses: ./
         with:
-          name: 'default'
-          connectionstring: 'asdf asdf'
-          pathtosettingsfile: '${{ github.workspace }}/__tests__/empty-json-sample-appsettings.json'
+          path_to_directory: '${{ github.workspace }}/actionsdemo-artifact'
+          migrations_dll: 'Benday.Demo123.Api.dll'
+          migrations_namespace: 'Benday.Demo123.Api'
+          startup_dll: 'Benday.Demo123.WebUi.dll'
+          dbcontext_class_name: 'MyDbContext'
 
         
