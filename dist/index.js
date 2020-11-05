@@ -155,7 +155,7 @@ function run() {
             // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
             writeDebug(`Starting...`);
             writeDebug(`Working directory is ${process.cwd()}`);
-            runLsLForDirectory(__dirname);
+            runLsLForDirectory(path_1.default.join(__dirname, '..'));
             writeDebug(`Reading inputs...`);
             writeDebug(`Finding location of dotnet...`);
             const dotnetLocation = which_1.default.sync('dotnet', { nothrow: true });
