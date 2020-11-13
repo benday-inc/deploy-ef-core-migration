@@ -1,4 +1,4 @@
-![build-test](https://github.com/benday/action-deploy-ef-core-migration/workflows/build-test/badge.svg)
+![build-test](https://github.com/benday-inc/deploy-ef-core-migration/workflows/build-test/badge.svg)
 
 # Deploy Entity Framework Core Migrations from a DLL
 
