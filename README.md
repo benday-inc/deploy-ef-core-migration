@@ -21,7 +21,7 @@ This action assumes that you have already configured the connection string for t
 To deploy entity framework migrations:  
 ```yaml
 - name: deploy entity framework core migrations
-  uses: benday/action-deploy-ef-core-migration@master
+  uses: benday-inc/deploy-ef-core-migration@master
   with:
   	path_to_directory: '${{ github.workspace }}/build-output'
   	migrations_dll: 'Benday.Demo123.Api.dll'
