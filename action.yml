@@ -1,5 +1,5 @@
-name: 'Deploy EF Core migrations from a DLL'
-description: 'Deploy EF Core migrations from a DLL'
+name: 'Deploy Entity Framework Core (EF Core) migrations from a DLL'
+description: 'Deploy Entity Framework Core (EF Core) migrations from a DLL'
 author: 'Benjamin Day Consulting, Inc.'
 inputs:
   path_to_directory:
