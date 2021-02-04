@@ -98,5 +98,21 @@ jobs:
           migrations_namespace: 'Benday.Demo123.Api'
           startup_dll: 'Benday.Demo123.WebUi.dll'
           dbcontext_class_name: 'MyDbContext'
+  automerge:
+    name: Merge pull request
+    runs-on: [ubuntu-latest]
+    needs: [build, test]
+    if: github.base_ref == 'main' && github.actor == 'dependabot[bot]'
+    steps:
+      - name: Merge
+        uses: actions/github-script@0.2.0
+        with:
+          script: |
+            github.pullRequests.merge({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number
+            })
+          github-token: ${{github.token}}
 
         
