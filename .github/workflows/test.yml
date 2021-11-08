@@ -24,13 +24,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Download artifact from a github workflow
-        uses: benday/action-download-latest-artifact@v0.1
+        uses: benday-inc/download-latest-artifact@main
         with:
           token: '${{ env.MYGITHUBTOKEN }}'
           repository_owner: 'benday'
           repository_name: 'actionsdemo'
           workflow_name: 'build'
           branch_name: 'master'
+          artifact_name: 'build-output'
           download_path: '${{ github.workspace }}/temp'
           download_filename: 'actionsdemo-artifact.zip'
       - name: mkdir for unzipped artifact
@@ -39,7 +40,7 @@ jobs:
         run: unzip '${{ github.workspace }}/temp/actionsdemo-artifact.zip' -d '${{ github.workspace }}/actionsdemo-artifact'
     
       - name: Edit .net core database connection string in appsettings.json
-        uses: benday/action-edit-dbconnstr-in-appsettings@v1.0.1
+        uses: benday-inc/edit-dbconnstr-in-appsettings@main
         with:
           name: 'default'
           connectionstring: 'Server=localhost; Database=Benday.Demo123; User Id=sa; Password=${{ secrets.SQL_SERVER_PASSWORD }};'
@@ -68,13 +69,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Download artifact from a github workflow
-        uses: benday/action-download-latest-artifact@v0.1
+        uses: benday-inc/download-latest-artifact@main
         with:
           token: '${{ env.MYGITHUBTOKEN }}'
           repository_owner: 'benday'
           repository_name: 'actionsdemo'
           workflow_name: 'build'
           branch_name: 'master'
+          artifact_name: 'build-output'
           download_path: '${{ github.workspace }}/temp'
           download_filename: 'actionsdemo-artifact.zip'
       - name: mkdir for unzipped artifact
