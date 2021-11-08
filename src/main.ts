@@ -83,7 +83,17 @@ async function run(): Promise<void> {
       pathToDirectory
     )
   } catch (error) {
-    core.setFailed(error.message)
+    if (error instanceof Error) {
+      const err: Error = error
+
+      core.error(err)
+      core.setFailed(err)
+    } else {
+      core.error('Someting went wrong.')
+      core.error(JSON.stringify(error))
+      core.error(JSON.stringify(error))
+      core.setFailed(JSON.stringify(error))
+    }
   }
 }
 
