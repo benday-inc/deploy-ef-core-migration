@@ -6,7 +6,7 @@ import * as os from 'os'
 // shows how the runner will run a javascript action with env / stdout protocol
 
 test('make call to deploy migrations', () => {
-  const dirOption1 = '/Users/benday/Downloads/build-output'
+  const dirOption1 = '/workspaces/build-output'
 
   if (fs.existsSync(dirOption1)) {
     process.env['INPUT_PATH_TO_DIRECTORY'] = dirOption1
