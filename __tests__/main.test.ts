@@ -9,12 +9,13 @@ test('make call to deploy migrations', () => {
   const dirOption1 = '/Users/benday/Downloads/build-output'
 
   if (fs.existsSync(dirOption1)) {
+    console.log(`INPUT_PATH_TO_DIRECTORY: ${dirOption1}`)
     process.env['INPUT_PATH_TO_DIRECTORY'] = dirOption1
   } else {
-    process.env['INPUT_PATH_TO_DIRECTORY'] = path.join(
-      process.cwd(),
-      'actionsdemo-artifact'
-    )
+    const dirOption2 = path.join(process.cwd(), 'actionsdemo-artifact')
+
+    console.log(`INPUT_PATH_TO_DIRECTORY: ${dirOption2}`)
+    process.env['INPUT_PATH_TO_DIRECTORY'] = dirOption2
   }
 
   process.env['INPUT_MIGRATIONS_DLL'] = 'Benday.Demo123.Api.dll'
