@@ -23,6 +23,7 @@ jobs:
         - 1433:1433
     steps:
       - uses: actions/checkout@v2
+      
       - name: Download artifact from a github workflow
         uses: benday-inc/download-latest-artifact@main
         with:
@@ -34,6 +35,8 @@ jobs:
           artifact_name: 'build-output'
           download_path: '${{ github.workspace }}/temp'
           download_filename: 'actionsdemo-artifact.zip'
+      
+      
       - name: mkdir for unzipped artifact
         run: mkdir '${{ github.workspace }}/actionsdemo-artifact'
       - name: unzip artifact
