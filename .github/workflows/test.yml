@@ -17,7 +17,7 @@ jobs:
         image: mcr.microsoft.com/mssql/server:2019-latest
         env:
           ACCEPT_EULA: Y
-          SA_PASSWORD: 'password'
+          SA_PASSWORD: 'PaQWER123!'
           MSSQL_PID: Standard
         ports:
         - 1433:1433
@@ -37,10 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     services:
       sqlserver:
-        image: mcr.microsoft.com/mssql/server:2019-latest
+        image: mcr.microsoft.com/mssql/server:2022-latest
         env:
           ACCEPT_EULA: Y
-          SA_PASSWORD: 'password'
+          SA_PASSWORD: 'PaQWER123!'
           MSSQL_PID: Standard
         ports:
         - 1433:1433
@@ -55,7 +55,7 @@ jobs:
         uses: benday-inc/edit-dbconnstr-in-appsettings@main
         with:
           name: 'default'
-          connectionstring: 'Server=localhost; Database=Benday.Testing.Web; User Id=sa; Password=password;'
+          connectionstring: 'Server=localhost; Database=Benday.Testing.Web; User Id=sa; Password=PaQWER123!;'
           pathtosettingsfile: '${{ github.workspace }}/test-app/Benday.Testing.Web/appsettings.json'    
       
       - name: run an ls -l
