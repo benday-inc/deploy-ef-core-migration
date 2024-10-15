@@ -23,31 +23,6 @@ jobs:
         - 1433:1433
     steps:
       - uses: actions/checkout@v2
-      - name: publish test application
-        run: dotnet publish -o '${{ github.workspace }}/published-app'
-        working-directory: '${{ github.workspace }}/test-app/Benday.Testing.Web'
-      - name: Download artifact from a github workflow
-        uses: benday-inc/download-latest-artifact@main
-        with:
-          token: '${{ env.MYGITHUBTOKEN }}'
-          repository_owner: 'benday'
-          repository_name: 'actionsdemo'
-          workflow_name: 'build'
-          branch_name: 'master'
-          artifact_name: 'build-output'
-          download_path: '${{ github.workspace }}/temp'
-          download_filename: 'actionsdemo-artifact.zip'
-      - name: mkdir for unzipped artifact
-        run: mkdir '${{ github.workspace }}/actionsdemo-artifact'
-      - name: unzip artifact
-        run: unzip '${{ github.workspace }}/temp/actionsdemo-artifact.zip' -d '${{ github.workspace }}/actionsdemo-artifact'
-    
-      - name: Edit .net core database connection string in appsettings.json
-        uses: benday-inc/edit-dbconnstr-in-appsettings@main
-        with:
-          name: 'default'
-          connectionstring: 'Server=localhost; Database=Benday.Demo123; User Id=sa; Password=${{ secrets.SQL_SERVER_PASSWORD }};'
-          pathtosettingsfile: '${{ github.workspace }}/actionsdemo-artifact/appsettings.json'    
       - name: get PWD
         run: pwd
       - name: run an ls -l
@@ -65,43 +40,33 @@ jobs:
         image: mcr.microsoft.com/mssql/server:2019-latest
         env:
           ACCEPT_EULA: Y
-          SA_PASSWORD: '${{ secrets.SQL_SERVER_PASSWORD }}'
+          SA_PASSWORD: 'password'
           MSSQL_PID: Standard
         ports:
         - 1433:1433
     steps:
       - uses: actions/checkout@v2
-      - name: Download artifact from a github workflow
-        uses: benday-inc/download-latest-artifact@main
-        with:
-          token: '${{ env.MYGITHUBTOKEN }}'
-          repository_owner: 'benday'
-          repository_name: 'actionsdemo'
-          workflow_name: 'build'
-          branch_name: 'master'
-          artifact_name: 'build-output'
-          download_path: '${{ github.workspace }}/temp'
-          download_filename: 'actionsdemo-artifact.zip'
-      - name: mkdir for unzipped artifact
-        run: mkdir '${{ github.workspace }}/actionsdemo-artifact'
-      - name: unzip artifact
-        run: unzip '${{ github.workspace }}/temp/actionsdemo-artifact.zip' -d '${{ github.workspace }}/actionsdemo-artifact'
+      
+      - name: publish test application
+        run: dotnet publish -o '${{ github.workspace }}/published-app'
+        working-directory: '${{ github.workspace }}/test-app/Benday.Testing.Web'
     
       - name: Edit .net core database connection string in appsettings.json
         uses: benday-inc/edit-dbconnstr-in-appsettings@main
         with:
           name: 'default'
-          connectionstring: 'Server=localhost; Database=Benday.Demo123; User Id=sa; Password=${{ secrets.SQL_SERVER_PASSWORD }};'
-          pathtosettingsfile: '${{ github.workspace }}/actionsdemo-artifact/appsettings.json'    
+          connectionstring: 'Server=localhost; Database=Benday.Testing.Web; User Id=sa; Password=password;'
+          pathtosettingsfile: '${{ github.workspace }}/test-app/Benday.Testing.Web/appsettings.json'    
+      
       - name: run an ls -l
         run: ls -lR
         working-directory: '${{ github.workspace }}'
       - uses: ./
         with:
-          path_to_directory: '${{ github.workspace }}/actionsdemo-artifact'
-          migrations_dll: 'Benday.Demo123.Api.dll'
-          migrations_namespace: 'Benday.Demo123.Api'
-          startup_dll: 'Benday.Demo123.WebUi.dll'
+          path_to_directory: '${{ github.workspace }}/test-app/Benday.Testing.Web'
+          migrations_dll: 'Benday.Testing.Api.dll'
+          migrations_namespace: 'Benday.Testing.Api'
+          startup_dll: 'Benday.Testing.Web.dll'
           dbcontext_class_name: 'MyDbContext'
   automerge:
     name: Merge pull request
