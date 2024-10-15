@@ -12,17 +12,9 @@ env:
 jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
-    services:
-      sqlserver:
-        image: mcr.microsoft.com/mssql/server:2019-latest
-        env:
-          ACCEPT_EULA: Y
-          SA_PASSWORD: 'PaQWER123!'
-          MSSQL_PID: Standard
-        ports:
-        - 1433:1433
+    
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: get PWD
         run: pwd
       - name: run an ls -l
@@ -45,7 +37,7 @@ jobs:
         ports:
         - 1433:1433
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       
       - name: publish test application
         run: dotnet publish -o '${{ github.workspace }}/published-app'
