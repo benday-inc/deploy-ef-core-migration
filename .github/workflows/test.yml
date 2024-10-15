@@ -8,7 +8,7 @@ on: # rebuild any PRs and main branch changes
       - 'releases/*'
   workflow_dispatch:
 env:
-  MYGITHUBTOKEN: '${{ secrets.TOKEN_FOR_ACTIONSDEMO }}'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
 jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
@@ -17,7 +17,7 @@ jobs:
         image: mcr.microsoft.com/mssql/server:2019-latest
         env:
           ACCEPT_EULA: Y
-          SA_PASSWORD: '${{ secrets.SQL_SERVER_PASSWORD }}'
+          SA_PASSWORD: 'password'
           MSSQL_PID: Standard
         ports:
         - 1433:1433
