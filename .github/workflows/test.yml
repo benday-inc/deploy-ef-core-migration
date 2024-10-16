@@ -49,7 +49,7 @@ jobs:
         with:
           name: 'default'
           connectionstring: 'Server=localhost; Database=Benday.Testing.Web; User Id=sa; Password=PaQWER123!;'
-          pathtosettingsfile: '${{ github.workspace }}/test-app/Benday.Testing.Web/appsettings.json'    
+          pathtosettingsfile: '${{ github.workspace }}/published-app/appsettings.json'    
       
       - name: run an ls -l
         run: ls -lR

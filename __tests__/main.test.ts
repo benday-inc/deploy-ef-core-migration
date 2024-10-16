@@ -2,7 +2,7 @@ import * as sut from 'child_process'
 import * as path from 'path'
 import * as fs from 'fs'
 import * as os from 'os'
-import {log} from 'console'
+import { log } from 'console'
 
 // shows how the runner will run a javascript action with env / stdout protocol
 
@@ -28,18 +28,24 @@ beforeAll(() => {
   log('Working directory for dotnet publish:')
   log(workingDirectoryForDotnetPublish)
 
-  // assert that the directory exists
-  expect(fs.existsSync(workingDirectoryForDotnetPublish)).toBe(true)
-
-  // make a command line call to dotnet publish
-  const commandText = `dotnet publish --configuration Debug --output ${process.env['INPUT_PATH_TO_DIRECTORY']}`
-  const options: sut.ExecSyncOptions = {
-    env: process.env,
-    cwd: workingDirectoryForDotnetPublish,
-    stdio: [process.stdin, process.stdout, process.stderr]
+  if (fs.existsSync(workingDirectoryForDotnetPublish) === true) {
+    log('Working directory exists...skipping publish')
+    return
   }
+  else {
+    // assert that the directory exists
+    expect(fs.existsSync(workingDirectoryForDotnetPublish)).toBe(true)
 
-  sut.execSync(commandText, options)
+    // make a command line call to dotnet publish
+    const commandText = `dotnet publish --configuration Debug --output ${process.env['INPUT_PATH_TO_DIRECTORY']}`
+    const options: sut.ExecSyncOptions = {
+      env: process.env,
+      cwd: workingDirectoryForDotnetPublish,
+      stdio: [process.stdin, process.stdout, process.stderr]
+    }
+
+    sut.execSync(commandText, options)
+  }
 })
 
 test('make call to deploy migrations', () => {
