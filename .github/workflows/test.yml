@@ -65,7 +65,7 @@ jobs:
         working-directory: '${{ github.workspace }}'
       - uses: ./
         with:
-          path_to_directory: '${{ github.workspace }}/test-app/Benday.Testing.Web'
+          path_to_directory: '${{ github.workspace }}/published-app'
           migrations_dll: 'Benday.Testing.Api.dll'
           migrations_namespace: 'Benday.Testing.Api'
           startup_dll: 'Benday.Testing.Web.dll'
