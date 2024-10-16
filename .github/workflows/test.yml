@@ -8,100 +8,77 @@ on: # rebuild any PRs and main branch changes
       - 'releases/*'
   workflow_dispatch:
 env:
-  MYGITHUBTOKEN: '${{ secrets.TOKEN_FOR_ACTIONSDEMO }}'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
 jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     services:
       sqlserver:
-        image: mcr.microsoft.com/mssql/server:2019-latest
+        image: mcr.microsoft.com/mssql/server:2022-latest
         env:
           ACCEPT_EULA: Y
-          SA_PASSWORD: '${{ secrets.SQL_SERVER_PASSWORD }}'
+          SA_PASSWORD: 'PaQWER123!'
           MSSQL_PID: Standard
         ports:
-        - 1433:1433
+        - 1433:1433    
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Download artifact from a github workflow
-        uses: benday-inc/download-latest-artifact@main
-        with:
-          token: '${{ env.MYGITHUBTOKEN }}'
-          repository_owner: 'benday'
-          repository_name: 'actionsdemo'
-          workflow_name: 'build'
-          branch_name: 'master'
-          artifact_name: 'build-output'
-          download_path: '${{ github.workspace }}/temp'
-          download_filename: 'actionsdemo-artifact.zip'
-      
-      
-      - name: mkdir for unzipped artifact
-        run: mkdir '${{ github.workspace }}/actionsdemo-artifact'
-      - name: unzip artifact
-        run: unzip '${{ github.workspace }}/temp/actionsdemo-artifact.zip' -d '${{ github.workspace }}/actionsdemo-artifact'
-    
-      - name: Edit .net core database connection string in appsettings.json
-        uses: benday-inc/edit-dbconnstr-in-appsettings@main
-        with:
-          name: 'default'
-          connectionstring: 'Server=localhost; Database=Benday.Demo123; User Id=sa; Password=${{ secrets.SQL_SERVER_PASSWORD }};'
-          pathtosettingsfile: '${{ github.workspace }}/actionsdemo-artifact/appsettings.json'    
+      - uses: actions/checkout@v4
       - name: get PWD
         run: pwd
       - name: run an ls -l
         run: ls -lR
         working-directory: '${{ github.workspace }}'
-      - run: |
-          npm install
-        working-directory: '${{ github.workspace }}/actionsdemo-artifact'
-      - run: |
-          npm run all
-  test: # make sure the action works on a clean machine without building
-    runs-on: ubuntu-latest
-    services:
-      sqlserver:
-        image: mcr.microsoft.com/mssql/server:2019-latest
-        env:
-          ACCEPT_EULA: Y
-          SA_PASSWORD: '${{ secrets.SQL_SERVER_PASSWORD }}'
-          MSSQL_PID: Standard
-        ports:
-        - 1433:1433
-    steps:
-      - uses: actions/checkout@v2
-      - name: Download artifact from a github workflow
-        uses: benday-inc/download-latest-artifact@main
-        with:
-          token: '${{ env.MYGITHUBTOKEN }}'
-          repository_owner: 'benday'
-          repository_name: 'actionsdemo'
-          workflow_name: 'build'
-          branch_name: 'master'
-          artifact_name: 'build-output'
-          download_path: '${{ github.workspace }}/temp'
-          download_filename: 'actionsdemo-artifact.zip'
-      - name: mkdir for unzipped artifact
-        run: mkdir '${{ github.workspace }}/actionsdemo-artifact'
-      - name: unzip artifact
-        run: unzip '${{ github.workspace }}/temp/actionsdemo-artifact.zip' -d '${{ github.workspace }}/actionsdemo-artifact'
+      - name: run npm install
+        run: |
+          npm i
+      - name: publish test application
+        run: dotnet publish -o '${{ github.workspace }}/published-app'
+        working-directory: '${{ github.workspace }}/test-app/Benday.Testing/src/Benday.Testing.Web'
     
       - name: Edit .net core database connection string in appsettings.json
         uses: benday-inc/edit-dbconnstr-in-appsettings@main
         with:
           name: 'default'
-          connectionstring: 'Server=localhost; Database=Benday.Demo123; User Id=sa; Password=${{ secrets.SQL_SERVER_PASSWORD }};'
-          pathtosettingsfile: '${{ github.workspace }}/actionsdemo-artifact/appsettings.json'    
+          connectionstring: 'Server=localhost; Database=Benday.Testing.Web; TrustServerCertificate=True; User Id=sa; Password=PaQWER123!;'
+          pathtosettingsfile: '${{ github.workspace }}/published-app/appsettings.json'    
+
+      - name: npm run all
+        run: |
+          npm run all
+  test: # make sure the action works on a clean machine without building
+    needs: build
+    runs-on: ubuntu-latest
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: 'PaQWER123!'
+          MSSQL_PID: Standard
+        ports:
+        - 1433:1433
+    steps:
+      - uses: actions/checkout@v4
+      - name: publish test application
+        run: dotnet publish -o '${{ github.workspace }}/published-app'
+        working-directory: '${{ github.workspace }}/test-app/Benday.Testing/src/Benday.Testing.Web'
+    
+      - name: Edit .net core database connection string in appsettings.json
+        uses: benday-inc/edit-dbconnstr-in-appsettings@main
+        with:
+          name: 'default'
+          connectionstring: 'Server=localhost; Database=Benday.Testing.Web; TrustServerCertificate=True; User Id=sa; Password=PaQWER123!;'
+          pathtosettingsfile: '${{ github.workspace }}/published-app/appsettings.json'    
+      
       - name: run an ls -l
         run: ls -lR
         working-directory: '${{ github.workspace }}'
       - uses: ./
         with:
-          path_to_directory: '${{ github.workspace }}/actionsdemo-artifact'
-          migrations_dll: 'Benday.Demo123.Api.dll'
-          migrations_namespace: 'Benday.Demo123.Api'
-          startup_dll: 'Benday.Demo123.WebUi.dll'
+          path_to_directory: '${{ github.workspace }}/published-app'
+          migrations_dll: 'Benday.Testing.Api.dll'
+          migrations_namespace: 'Benday.Testing.Api'
+          startup_dll: 'Benday.Testing.Web.dll'
           dbcontext_class_name: 'MyDbContext'
   automerge:
     name: Merge pull request
@@ -110,7 +87,7 @@ jobs:
     if: github.base_ref == 'main' && github.actor == 'dependabot[bot]'
     steps:
       - name: Merge
-        uses: actions/github-script@0.2.0
+        uses: actions/github-script@v7
         with:
           script: |
             github.pullRequests.merge({

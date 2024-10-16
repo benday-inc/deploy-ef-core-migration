@@ -2,6 +2,10 @@
 # node_modules
 __tests__/temp
 
+published-app
+obj
+.vs
+
 # Rest pulled from https://github.com/github/gitignore/blob/master/Node.gitignore
 # Logs
 logs
@@ -100,3 +104,13 @@ __tests__/runner/*
 lib/**/*
 node_modules
 actionsdemo-artifact
+test-app/Benday.Testing/src/Benday.Testing.Api/obj/Benday.Testing.Api.csproj.nuget.dgspec.json
+test-app/Benday.Testing/src/Benday.Testing.Api/obj/Benday.Testing.Api.csproj.nuget.g.props
+test-app/Benday.Testing/src/Benday.Testing.Api/obj/Benday.Testing.Api.csproj.nuget.g.targets
+test-app/Benday.Testing/src/Benday.Testing.Api/obj/project.assets.json
+test-app/Benday.Testing/src/Benday.Testing.Api/obj/project.nuget.cache
+test-app/Benday.Testing/src/Benday.Testing.Web/obj/Benday.Testing.Web.csproj.nuget.dgspec.json
+test-app/Benday.Testing/src/Benday.Testing.Web/obj/Benday.Testing.Web.csproj.nuget.g.props
+test-app/Benday.Testing/src/Benday.Testing.Web/obj/Benday.Testing.Web.csproj.nuget.g.targets
+test-app/Benday.Testing/src/Benday.Testing.Web/obj/project.assets.json
+test-app/Benday.Testing/src/Benday.Testing.Web/obj/project.nuget.cache

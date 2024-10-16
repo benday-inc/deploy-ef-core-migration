@@ -1,23 +1,19 @@
 {
-    "ConnectionStrings": {
-      "connstr1": "connstr1 value",
-      "connstr2": "connstr2 value"
-    },
-    "Logging": {
-        "LogLevel": {
-        "Default": "Information",
-        "Microsoft": "Warning",
-        "Microsoft.Hosting.Lifetime": "Information"
-        }
-      },
-    "IdentityServer": {
-      "Clients": {
-        "Benday.CodeGenerator.WebApi": {
-          "Profile": "IdentityServerSPA"
-        }
+  "ConnectionStrings": {
+      "default": "Server=localhost; Database=Benday.Demo123; User Id=sa; Password=Pa$$word;"      
+  },
+  "Logging": {
+      "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
       }
-    },
-  "AllowedHosts": "*"
+  },
+  "AllowedHosts": "*",
+  "Note": "note version 1",
+  "keylevel1": {
+      "keylevel2": {
+          "keylevel3": "asdf asdf"
+      }
   }
-  
-  
+}
