@@ -20,9 +20,7 @@ jobs:
       - name: run an ls -l
         run: ls -lR
         working-directory: '${{ github.workspace }}'
-      - run: |
-          npm install
-        working-directory: '${{ github.workspace }}/actionsdemo-artifact'
+
       - run: |
           npm run all
   test: # make sure the action works on a clean machine without building
