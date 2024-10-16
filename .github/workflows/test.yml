@@ -42,7 +42,7 @@ jobs:
       
       - name: publish test application
         run: dotnet publish -o '${{ github.workspace }}/published-app'
-        working-directory: '${{ github.workspace }}/test-app/Benday.Testing.Web'
+        working-directory: '${{ github.workspace }}/test-app/Benday.Testing/srcBenday.Testing.Web'
     
       - name: Edit .net core database connection string in appsettings.json
         uses: benday-inc/edit-dbconnstr-in-appsettings@main
