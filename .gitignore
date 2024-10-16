@@ -4,6 +4,7 @@ __tests__/temp
 
 published-app
 obj
+.vs
 
 # Rest pulled from https://github.com/github/gitignore/blob/master/Node.gitignore
 # Logs
