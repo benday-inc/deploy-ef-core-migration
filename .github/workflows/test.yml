@@ -20,8 +20,11 @@ jobs:
       - name: run an ls -l
         run: ls -lR
         working-directory: '${{ github.workspace }}'
-
-      - run: |
+      - name: run npm install
+        run: |
+          npm i
+      - name: npm run all
+        run: |
           npm run all
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
