@@ -23,7 +23,7 @@ inputs:
     description: 'Class name of the DbContext'
     default: ''
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
 branding:
   icon: 'database'
