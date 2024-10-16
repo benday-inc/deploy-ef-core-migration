@@ -2,6 +2,9 @@
 # node_modules
 __tests__/temp
 
+published-app
+obj
+
 # Rest pulled from https://github.com/github/gitignore/blob/master/Node.gitignore
 # Logs
 logs
