@@ -2,7 +2,7 @@ import * as sut from 'child_process'
 import * as path from 'path'
 import * as fs from 'fs'
 import * as os from 'os'
-import { log } from 'console'
+import {log} from 'console'
 
 // shows how the runner will run a javascript action with env / stdout protocol
 
