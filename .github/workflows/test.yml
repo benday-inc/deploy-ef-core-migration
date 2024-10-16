@@ -23,6 +23,17 @@ jobs:
       - name: run npm install
         run: |
           npm i
+      - name: publish test application
+        run: dotnet publish -o '${{ github.workspace }}/published-app'
+        working-directory: '${{ github.workspace }}/test-app/Benday.Testing/srcBenday.Testing.Web'
+    
+      - name: Edit .net core database connection string in appsettings.json
+        uses: benday-inc/edit-dbconnstr-in-appsettings@main
+        with:
+          name: 'default'
+          connectionstring: 'Server=localhost; Database=Benday.Testing.Web; User Id=sa; Password=PaQWER123!;'
+          pathtosettingsfile: '${{ github.workspace }}/published-app/appsettings.json'    
+
       - name: npm run all
         run: |
           npm run all
