@@ -5,6 +5,14 @@ on:
   push:
     tags:
       - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version tag to release (e.g. v2.1.0)'
+        required: true
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 jobs:
   release:
