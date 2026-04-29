@@ -1,8 +1,8 @@
 {
   "name": "deploy-ef-core-migration",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "GitHub Action to deploy Entity Framework Core migrations from a DLL",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -26,14 +26,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.0",
-    "@types/which": "^3.0.4"
+    "@actions/core": "^2.0.3",
+    "which": "^3.0.1"
   },
   "devDependencies": {
     "@eslint/create-config": "^1.3.1",
     "@types/jest": "^29.5.13",
     "@types/node": "^22.7.5",
+    "@types/which": "^3.0.4",
     "@typescript-eslint/eslint-plugin": "^8.9.0",
     "@typescript-eslint/parser": "^8.9.0",
     "@vercel/ncc": "^0.38.2",
