@@ -2,6 +2,15 @@
 
 # Deploy Entity Framework Core Migrations from a DLL
 
+Written by Benjamin Day  
+Pluralsight Author | Microsoft MVP | Scrum.org Professional Scrum Trainer  
+https://www.benday.com  
+https://www.honestcheetah.com  
+info@benday.com  
+YouTube: https://www.youtube.com/@_benday  
+
+*Got ideas for GitHub Actions you'd like to see? Found a bug? Let us know by submitting an issue https://github.com/benday-inc/deploy-ef-core-migration/issues. Want to contribute? Submit a pull request.*
+
 This action helps you to deploy Entity Framework (EF Core) migrations from a DLL instead of from the source code.  This is helpful when you are deploying pre-compiled code during a release workflow.  
 
 ### How to use this
@@ -16,19 +25,26 @@ If you're going to distribute this application in compiled form, you'd go to the
 
 This action assumes that you have already configured the connection string for the EF Core migration code.  Figuring out how EF Core migrations are going to choose a connection string can sometimes be a little unpredictable.  In order to make your life easier, I'd highly recommend [adding an implementation of IDesignTimeDbContextFactory to your project](https://www.benday.com/2017/12/19/ef-core-2-0-migrations-without-hard-coded-connection-strings/).
 
+## What's new in v3
+
+- Action now runs on **Node 24** (was Node 20). Self-hosted runners must have Node 24 available; GitHub-hosted runners are unaffected.
+- Modernized dependencies: `@actions/core` 2.x, `jest` 30, `prettier` 3, `eslint` 9 (flat config), `@typescript-eslint` 8.
+- 0 npm vulnerabilities.
+
+**Migration:** consumers should switch from `uses: benday-inc/deploy-ef-core-migration@v2` to `@v3`.
+
 ## Usage
 
 To deploy entity framework migrations:  
 ```yaml
 - name: deploy entity framework core migrations
-  uses: benday-inc/deploy-ef-core-migration@main
+  uses: benday-inc/deploy-ef-core-migration@v3
   with:
-  	path_to_directory: '${{ github.workspace }}/build-output'
-  	migrations_dll: 'Benday.Demo123.Api.dll'
-  	migrations_namespace: 'Benday.Demo123.Api'
-  	startup_dll: 'Benday.Demo123.WebUi.dll'
-  	dbcontext_class_name: 'MyDbContext'
-
+    path_to_directory: '${{ github.workspace }}/build-output'
+    migrations_dll: 'Benday.Demo123.Api.dll'
+    migrations_namespace: 'Benday.Demo123.Api'
+    startup_dll: 'Benday.Demo123.WebUi.dll'
+    dbcontext_class_name: 'MyDbContext'
 ```
 
 ----

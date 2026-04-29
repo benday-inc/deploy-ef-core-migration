@@ -20,9 +20,14 @@ jobs:
           SA_PASSWORD: 'PaQWER123!'
           MSSQL_PID: Standard
         ports:
-        - 1433:1433    
+        - 1433:1433
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
       - name: get PWD
         run: pwd
       - name: run an ls -l
@@ -34,13 +39,13 @@ jobs:
       - name: publish test application
         run: dotnet publish -o '${{ github.workspace }}/published-app'
         working-directory: '${{ github.workspace }}/test-app/Benday.Testing/src/Benday.Testing.Web'
-    
+
       - name: Edit .net core database connection string in appsettings.json
         uses: benday-inc/edit-dbconnstr-in-appsettings@main
         with:
           name: 'default'
           connectionstring: 'Server=localhost; Database=Benday.Testing.Web; TrustServerCertificate=True; User Id=sa; Password=PaQWER123!;'
-          pathtosettingsfile: '${{ github.workspace }}/published-app/appsettings.json'    
+          pathtosettingsfile: '${{ github.workspace }}/published-app/appsettings.json'
 
       - name: npm run all
         run: |
@@ -58,18 +63,18 @@ jobs:
         ports:
         - 1433:1433
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: publish test application
         run: dotnet publish -o '${{ github.workspace }}/published-app'
         working-directory: '${{ github.workspace }}/test-app/Benday.Testing/src/Benday.Testing.Web'
-    
+
       - name: Edit .net core database connection string in appsettings.json
         uses: benday-inc/edit-dbconnstr-in-appsettings@main
         with:
           name: 'default'
           connectionstring: 'Server=localhost; Database=Benday.Testing.Web; TrustServerCertificate=True; User Id=sa; Password=PaQWER123!;'
-          pathtosettingsfile: '${{ github.workspace }}/published-app/appsettings.json'    
-      
+          pathtosettingsfile: '${{ github.workspace }}/published-app/appsettings.json'
+
       - name: run an ls -l
         run: ls -lR
         working-directory: '${{ github.workspace }}'
@@ -87,14 +92,12 @@ jobs:
     if: github.base_ref == 'main' && github.actor == 'dependabot[bot]'
     steps:
       - name: Merge
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
-            github.pullRequests.merge({
+            github.rest.pulls.merge({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               pull_number: context.payload.pull_request.number
             })
           github-token: ${{github.token}}
-
-        
