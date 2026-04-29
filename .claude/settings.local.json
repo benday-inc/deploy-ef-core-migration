@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh release *)"
+      "Bash(gh release *)",
+      "Bash(awk '{print $2}')",
+      "Read(//tmp/**)",
+      "Bash(xargs -I{} cat \"{}\")",
+      "Bash(node -e ' *)"
     ]
   }
 }
