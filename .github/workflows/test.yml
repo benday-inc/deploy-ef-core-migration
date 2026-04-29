@@ -95,7 +95,7 @@ jobs:
     if: github.base_ref == 'main' && github.actor == 'dependabot[bot]'
     steps:
       - name: Merge
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             github.pullRequests.merge({

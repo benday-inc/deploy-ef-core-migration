@@ -42,7 +42,7 @@ jobs:
           fi
 
       - name: Create GitHub Release
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const tag = '${{ steps.get_tag.outputs.TAG }}';
