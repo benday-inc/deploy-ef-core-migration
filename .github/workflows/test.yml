@@ -90,6 +90,9 @@ jobs:
     runs-on: [ubuntu-latest]
     needs: [build, test]
     if: github.base_ref == 'main' && github.actor == 'dependabot[bot]'
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Merge
         uses: actions/github-script@v9
