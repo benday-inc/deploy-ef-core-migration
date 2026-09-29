@@ -26,7 +26,7 @@
   "author": "Benjamin Day Consulting, Inc.",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^2.0.3",
+    "@actions/core": "^3.0.1",
     "which": "^4.0.0"
   },
   "devDependencies": {
